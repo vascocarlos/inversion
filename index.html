@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Simulador de Inversión Inmobiliaria</title>
+    <link rel="stylesheet" href="css/style.css" />
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- html2pdf.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  </head>
+  <body>
+    <header>
+      <h1>Simulador de Inversión Inmobiliaria</h1>
+    </header>
+
+    <!-- Botones generales -->
+    <div style="text-align: center; margin-top: 10px">
+      <button onclick="guardarDatos()">💾 Guardar datos</button>
+      <button onclick="cargarDatos()">📂 Cargar datos</button>
+      <button onclick="borrarDatos()">🗑️ Borrar datos</button>
+    </div>
+
+    <!-- Navegación -->
+    <nav style="text-align: center; margin-top: 15px">
+      <button onclick="mostrar('datosInmueble')">Datos del Inmueble</button>
+      <button onclick="mostrar('gastos')">Gastos</button>
+      <button onclick="mostrar('financiacion')">Financiación</button>
+      <button onclick="mostrar('cra')">CRA</button>
+      <button onclick="mostrar('crv')">CRV</button>
+      <button onclick="mostrar('cashflow')">Cashflow</button>
+      <button onclick="mostrar('fiscalidad')">Fiscalidad</button>
+      <button onclick="mostrar('resumen')">Resumen</button>
+    </nav>
+
+    <main>
+      <!-- MÓDULO 1: DATOS DEL INMUEBLE -->
+      <section id="datosInmueble" class="modulo">
+        <h2>Datos del Inmueble</h2>
+
+        <label>Dirección:</label>
+        <input type="text" id="direccion" placeholder="Ej: Calle Mallorca 12" />
+
+        <!-- Grupo compacto con separación -->
+        <div
+          style="
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px 25px;
+            margin-top: 15px;
+            margin-bottom: 20px;
+          "
+        >
+          <div>
+            <label for="superficieTotal">Superficie total (m²):</label>
+            <input type="number" id="superficieTotal" placeholder="Ej: 88" />
+          </div>
+
+          <div>
+            <label for="planta">Planta:</label>
+            <input type="number" id="planta" placeholder="Ej: 2" />
+          </div>
+
+          <div>
+            <label for="habitaciones">Nº habitaciones:</label>
+            <input type="number" id="habitaciones" placeholder="Ej: 3" />
+          </div>
+
+          <div>
+            <label for="ascensor">Ascensor (sí/no):</label>
+            <input type="text" id="ascensor" placeholder="Ej: Sí" />
+          </div>
+
+          <div>
+            <label for="banos">Nº baños:</label>
+            <input type="number" id="banos" placeholder="Ej: 1" />
+          </div>
+
+          <div>
+            <label for="aseos">Nº aseos:</label>
+            <input type="number" id="aseos" placeholder="Ej: 1" />
+          </div>
+
+          <div>
+            <label for="superficieUtil">Superficie útil (m²):</label>
+            <input type="number" id="superficieUtil" placeholder="Ej: 75" />
+          </div>
+
+          <div>
+            <label for="terraza">Terraza/Balcón (m²):</label>
+            <input type="number" id="terraza" placeholder="Ej: 5" />
+          </div>
+
+          <div>
+            <label for="patio">Patio/Jardín (m²):</label>
+            <input type="number" id="patio" placeholder="Ej: 10" />
+          </div>
+
+          <div>
+            <label for="parking">Parking (m²):</label>
+            <input type="number" id="parking" placeholder="Ej: 12" />
+          </div>
+
+          <div>
+            <label for="trastero">Trastero (m²):</label>
+            <input type="number" id="trastero" placeholder="Ej: 6" />
+          </div>
+        </div>
+
+        <label>Otros datos:</label>
+        <textarea
+          id="otrosDatos"
+          placeholder="Ej: Orientación sur, zona tranquila..."
+          style="width: 100%; height: 60px"
+        ></textarea>
+
+        <!-- BLOQUE CORREGIDO: Precio del inmueble y Descuento aplicado -->
+        <!-- Contenedor en grid de 2 columnas -->
+        <div class="grid-2">
+          <div class="campo">
+            <label>Precio del inmueble (€):</label>
+            <input
+              type="number"
+              id="precioInmueble"
+              placeholder="Ej: 185000"
+              oninput="calcularPrecioTotal()"
+            />
+          </div>
+
+          <div class="campo">
+            <label>Descuento aplicado (%):</label>
+            <input
+              type="number"
+              id="descuento"
+              placeholder="Ej: 5"
+              oninput="calcularPrecioTotal()"
+            />
+          </div>
+        </div>
+        <label>Precio con descuento (€):</label>
+        <input type="text" id="precioDescontado" readonly class="readonly" />
+
+        <!-- Línea con ITP y Comunidad Autónoma -->
+        <div style="margin-bottom: 15px">
+          <label style="font-weight: bold">ITP (%) Comunidad Autónoma:</label>
+
+          <div style="margin-top: 5px">
+            <select
+              id="comunidad"
+              onchange="setITPporZona()"
+              required
+              style="width: 250px; height: 48px; padding: 6px"
+            >
+              <option value="">Selecciona una comunidad</option>
+              <option value="baleares">Islas Baleares</option>
+              <option value="catalunya">Cataluña</option>
+              <option value="madrid">Madrid</option>
+              <option value="andalucia">Andalucía</option>
+              <option value="valencia">Comunidad Valenciana</option>
+              <option value="aragon">Aragón</option>
+              <option value="galicia">Galicia</option>
+            </select>
+
+            <input
+              type="number"
+              id="itp"
+              readonly
+              placeholder="Ej: 8"
+              style="width: 100px; height: 36px; padding: 6px"
+            />
+          </div>
+
+          <!-- ITP en euros -->
+          <label style="display: block; margin-top: 10px"
+            >ITP estimado (€):</label
+          >
+          <input
+            type="text"
+            id="itpEuro"
+            readonly
+            class="readonly"
+            style="width: 150px; height: 36px; padding: 6px"
+          />
+        </div>
+
+        <div class="grid-4" style="margin-top: 20px">
+          <div>
+            <label>Notaría (€):</label>
+            <input
+              type="number"
+              id="notaria"
+              placeholder="Ej: 1000"
+              oninput="calcularPrecioTotal()"
+            />
+          </div>
+          <div>
+            <label>Registro (€):</label>
+            <input
+              type="number"
+              id="registro"
+              placeholder="Ej: 500"
+              oninput="calcularPrecioTotal()"
+            />
+          </div>
+          <div>
+            <label>Gestoría (€):</label>
+            <input
+              type="number"
+              id="gestoria"
+              placeholder="Ej: 400"
+              oninput="calcularPrecioTotal()"
+            />
+          </div>
+
+          <div>
+            <label>Otros gastos (€):</label>
+            <input
+              type="number"
+              id="otrosGastosCompra"
+              placeholder="Ej: 300"
+              oninput="calcularPrecioTotal()"
+            />
+          </div>
+        </div>
+
+        <label>Precio total con gastos (€):</label>
+        <input type="text" id="precioTotal" readonly class="readonly" />
+
+        <h3>Reforma</h3>
+        <div class="grid-4">
+          <div>
+            <label>Precio reforma m²:</label>
+            <input
+              type="number"
+              id="precioReformaM2"
+              placeholder="Ej: 500"
+              oninput="calcularPrecioTotal()"
+            />
+          </div>
+          <div>
+            <label>Coste reforma (€):</label>
+            <input
+              type="number"
+              id="costeReforma"
+              placeholder="Ej: 15000"
+              oninput="calcularPrecioTotal()"
+            />
+          </div>
+          <div>
+            <label>Extras imprevistos (€):</label>
+            <input
+              type="number"
+              id="extras"
+              placeholder="Ej: 3000"
+              oninput="calcularPrecioTotal()"
+            />
+          </div>
+        </div>
+
+        <!-- 💡 Precio parcial con reforma -->
+        <label>Precio total incluyendo reforma (€):</label>
+        <input
+          type="text"
+          id="precioTotalConReforma"
+          readonly
+          class="readonly"
+        />
+
+        <div style="text-align: center; margin-top: 30px">
+          <button onclick="exportarResumenPDF()">📄 Descargar PDF</button>
+          <button onclick="compartirResultado()">🔗 Compartir</button>
+        </div>
+      </section>
+
+      <!-- MÓDULO 2: GASTOS -->
+      <section id="gastos" class="modulo" style="display: none">
+        <h3>Gastos anuales</h3>
+        <div class="grid-4">
+          <div>
+            <label>IBI (€):</label>
+            <input
+              type="number"
+              id="ibi"
+              placeholder="Ej: 400"
+              oninput="calcularGastos()"
+            />
+          </div>
+          <div>
+            <label>Comunidad (€):</label>
+            <input
+              type="number"
+              id="comunidadGasto"
+              placeholder="Ej: 600"
+              oninput="calcularGastos()"
+            />
+          </div>
+          <div>
+            <label>Seguros (€):</label>
+            <input
+              type="number"
+              id="seguros"
+              placeholder="Ej: 200"
+              oninput="calcularGastos()"
+            />
+          </div>
+          <div>
+            <label>Alarma (€):</label>
+            <input
+              type="number"
+              id="alarma"
+              placeholder="Ej: 120"
+              oninput="calcularGastos()"
+            />
+          </div>
+        </div>
+      </section>
+
+      <!-- 🔨 Bloque Reforma -->
+
+      <!-- MÓDULO 3: FINANCIACIÓN -->
+      <section id="financiacion" class="modulo" style="display: none">
+        <h2>Financiación</h2>
+
+        <label>% Financiado:</label>
+        <input
+          type="number"
+          id="porcentajeFinanciado"
+          placeholder="Ej: 80"
+          value="80"
+          oninput="calcularFinanciacion()"
+        />
+
+        <label>Tipo de interés anual (%):</label>
+        <input
+          type="number"
+          id="interes"
+          placeholder="Ej: 3.5"
+          step="0.01"
+          value="3.5"
+          oninput="calcularFinanciacion()"
+        />
+
+        <label>Plazo (años):</label>
+        <input
+          type="number"
+          id="plazo"
+          placeholder="Ej: 25"
+          value="25"
+          oninput="calcularFinanciacion()"
+        />
+
+        <label>Cuota mensual estimada (€):</label>
+        <input type="text" id="cuotaMensual" readonly class="readonly" />
+      </section>
+
+      <!-- MÓDULO 4: CRA -->
+      <section id="cra" class="modulo" style="display: none">
+        <h2>CRA: Comprar - Reformar - Alquilar</h2>
+
+        <label>Alquiler mensual estimado (€):</label>
+        <input
+          type="number"
+          id="alquilerMensual"
+          placeholder="Ej: 850"
+          oninput="calcularCRA()"
+        />
+
+        <label>Inversión total (€):</label>
+        <input type="text" id="inversionTotal" readonly class="readonly" />
+
+        <label>Ingresos anuales (€):</label>
+        <input type="text" id="ingresosAnuales" readonly class="readonly" />
+
+        <label>Gastos anuales (€):</label>
+        <input type="text" id="gastosAnuales" readonly class="readonly" />
+
+        <label>Rentabilidad bruta (%):</label>
+        <input type="text" id="rentabilidadBruta" readonly class="readonly" />
+
+        <label>Rentabilidad neta (%):</label>
+        <input type="text" id="rentabilidadNeta" readonly class="readonly" />
+
+        <label>ROI (%):</label>
+        <input type="text" id="roi" readonly class="readonly" />
+      </section>
+
+      <!-- MÓDULO 5: CRV -->
+      <section id="crv" class="modulo" style="display: none">
+        <h2>CRV: Comprar - Reformar - Vender</h2>
+
+        <!-- RESUMEN INMUEBLE -->
+        <div
+          class="resumenInmueble"
+          style="
+            background: #f6f6f6;
+            padding: 10px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+          "
+        >
+          <p>
+            <strong>Dirección:</strong> <span id="resumenDireccion">—</span>
+          </p>
+          <p>
+            <strong>Precio total con gastos:</strong>
+            <span id="resumenTotal">—</span>
+          </p>
+          <p>
+            <strong>Coste reforma:</strong> <span id="resumenReforma">—</span>
+          </p>
+          <p>
+            <strong>Precio total con gastos y reforma:</strong>
+            <span id="resumenTotalReforma">—</span>
+          </p>
+        </div>
+
+        <!-- ESCENARIOS SUGERIDOS -->
+        <div class="grid-4" style="margin-bottom: 20px">
+          <div style="text-align: center">
+            <label><strong>Escenario moderado</strong></label>
+            <input type="text" readonly class="readonly" id="ventaBajo" />
+            <div
+              id="rentabilidadBajo"
+              style="color: green; font-weight: bold"
+            ></div>
+          </div>
+          <div style="text-align: center">
+            <label><strong>Escenario bueno</strong></label>
+            <input type="text" readonly class="readonly" id="ventaMedio" />
+            <div
+              id="rentabilidadMedio"
+              style="color: green; font-weight: bold"
+            ></div>
+          </div>
+          <div style="text-align: center">
+            <label><strong>Escenario muy bueno</strong></label>
+            <input type="text" readonly class="readonly" id="ventaAlto" />
+            <div
+              id="rentabilidadAlto"
+              style="color: green; font-weight: bold"
+            ></div>
+          </div>
+          <div style="text-align: center">
+            <label><strong>Escenario TOP</strong></label>
+            <input type="text" readonly class="readonly" id="ventaTop" />
+            <div
+              id="rentabilidadTop"
+              style="color: green; font-weight: bold"
+            ></div>
+          </div>
+        </div>
+
+        <!-- VALORES PERSONALIZADOS -->
+        <label>Precio estimado de venta (€):</label>
+        <input
+          type="number"
+          id="precioVenta"
+          placeholder="Ej: 295000"
+          oninput="calcularCRV()"
+        />
+
+        <label>Ganancia bruta (€):</label>
+        <input type="text" id="gananciaBruta" readonly class="readonly" />
+
+        <label>Costes venta (% del precio):</label>
+        <input
+          type="number"
+          id="costesVenta"
+          placeholder="Ej: 5"
+          value="5"
+          oninput="calcularCRV()"
+        />
+
+        <label>Impuestos sobre ganancia (%):</label>
+        <input
+          type="number"
+          id="impuestosGanancia"
+          placeholder="Ej: 19"
+          value="19"
+          oninput="calcularCRV()"
+        />
+
+        <label>Ganancia neta (€):</label>
+        <input type="text" id="gananciaNeta" readonly class="readonly" />
+
+        <label>ROI final (%):</label>
+        <input type="text" id="roiCrv" readonly class="readonly" />
+
+        <!-- BOTONES DE ACCIÓN -->
+        <div style="text-align: center; margin-top: 30px">
+          <button onclick="exportarCRVPDF()" style="margin-right: 10px">
+            📄 Descargar PDF
+          </button>
+          <button onclick="compartirResultado()">🔗 Compartir</button>
+        </div>
+      </section>
+
+      <!-- MÓDULO 6: CASHFLOW -->
+      <section id="cashflow" class="modulo" style="display: none">
+        <h2>Cashflow: Evolución a Largo Plazo</h2>
+        <label>Incremento anual del alquiler (%):</label>
+        <input type="number" id="incrementoAlquiler" value="2" />
+        <label>Incremento anual de gastos (%):</label>
+        <input type="number" id="incrementoGastos" value="1.5" />
+        <button onclick="generarCashflow()">Generar Cashflow</button>
+        <div id="tablaCashflow"></div>
+        <canvas id="graficoCashflow" width="100%" height="50"></canvas>
+      </section>
+
+      <!-- MÓDULO 7: FISCALIDAD -->
+      <section id="fiscalidad" class="modulo" style="display: none">
+        <h2>Fiscalidad sobre Ganancia de Venta</h2>
+        <label>Ganancia antes de impuestos (€):</label>
+        <input type="text" id="gananciaBruta" readonly class="readonly" />
+        <label>Impuestos totales estimados (€):</label>
+        <input type="text" id="impuestosCalculados" readonly class="readonly" />
+        <label>Ganancia final neta (€):</label>
+        <input type="text" id="gananciaFinal" readonly class="readonly" />
+        <button onclick="calcularFiscalidad()">Calcular Impuestos</button>
+      </section>
+
+      <!-- MÓDULO 8: RESUMEN -->
+      <section id="resumen" class="modulo" style="display: none">
+        <h2>Resumen Comparativo CRA vs CRV</h2>
+        <button onclick="mostrarResumen()">Actualizar Resumen</button>
+        <button onclick="exportarResumenPDF()">Exportar a PDF</button>
+        <div id="tablaResumen" style="margin-top: 20px"></div>
+      </section>
+
+      <!-- Vista limpia solo para PDF -->
+      <!-- RESUMEN PARA PDF -->
+      <div
+        id="resumenPDF"
+        style="
+          display: none;
+          padding: 40px;
+          font-family: 'Segoe UI', sans-serif;
+          background: white;
+        "
+      >
+        <h2 style="color: #003366; text-align: center">
+          Resumen de Inversión Inmobiliaria
+        </h2>
+        <hr style="margin: 20px 0" />
+
+        <h3 style="color: #000">Datos del Inmueble</h3>
+        <div
+          style="
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px 30px;
+            margin-bottom: 20px;
+          "
+        >
+          <p><strong>Dirección:</strong> <span id="r_direccion"></span></p>
+          <p>
+            <strong>Superficie total:</strong>
+            <span id="r_superficieTotal"></span> m²
+          </p>
+          <p><strong>Planta:</strong> <span id="r_planta"></span></p>
+          <p>
+            <strong>Nº habitaciones:</strong> <span id="r_habitaciones"></span>
+          </p>
+          <p><strong>Ascensor:</strong> <span id="r_ascensor"></span></p>
+          <p><strong>Nº baños:</strong> <span id="r_banos"></span></p>
+          <p><strong>Nº aseos:</strong> <span id="r_aseos"></span></p>
+          <p>
+            <strong>Superficie útil:</strong>
+            <span id="r_superficieUtil"></span> m²
+          </p>
+          <p>
+            <strong>Terraza/Balcón:</strong> <span id="r_terraza"></span> m²
+          </p>
+          <p><strong>Patio/Jardín:</strong> <span id="r_patio"></span> m²</p>
+          <p><strong>Parking:</strong> <span id="r_parking"></span> m²</p>
+          <p><strong>Trastero:</strong> <span id="r_trastero"></span> m²</p>
+        </div>
+
+        <p><strong>Otros datos:</strong> <span id="r_otrosDatos"></span></p>
+
+        <h3 style="color: #000; margin-top: 30px">Precio y Gastos</h3>
+        <div
+          style="
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px 30px;
+            margin-bottom: 20px;
+          "
+        >
+          <p>
+            <strong>Precio inmueble:</strong>
+            <span id="r_precioInmueble"></span> €
+          </p>
+          <p>
+            <strong>Descuento aplicado:</strong>
+            <span id="r_descuento"></span> %
+          </p>
+          <p>
+            <strong>Precio con descuento:</strong>
+            <span id="r_precioDescontado"></span> €
+          </p>
+          <p><strong>ITP aplicado:</strong> <span id="r_itp"></span> %</p>
+          <p><strong>ITP en euros:</strong> <span id="r_itpEuro"></span></p>
+          <p><strong>Notaría:</strong> <span id="r_notaria"></span> €</p>
+          <p><strong>Registro:</strong> <span id="r_registro"></span> €</p>
+          <p><strong>Gestoría:</strong> <span id="r_gestoria"></span> €</p>
+          <p>
+            <strong>Comisión compra:</strong>
+            <span id="r_comisionCompra"></span> €
+          </p>
+          <p>
+            <strong>Otros gastos compra:</strong>
+            <span id="r_otrosGastosCompra"></span> €
+          </p>
+        </div>
+
+        <h3 style="color: #000; margin-top: 30px">Reforma</h3>
+        <div
+          style="
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px 30px;
+            margin-bottom: 20px;
+          "
+        >
+          <p>
+            <strong>Coste reforma:</strong> <span id="r_costeReforma"></span> €
+          </p>
+          <p>
+            <strong>Extras imprevistos:</strong> <span id="r_extras"></span> €
+          </p>
+        </div>
+
+        <h3 style="color: #000; margin-top: 30px">Totales</h3>
+        <p>
+          <strong>Precio total incluyendo reforma y gastos:</strong>
+          <span id="r_totalGastos"></span>
+        </p>
+        <p>
+          <strong>Precio total completo:</strong>
+          <span id="r_totalCompleto"></span>
+        </p>
+      </div>
+    </main>
+
+    <!-- Scripts -->
+    <script src="js/main.js"></script>
+    <script src="js/datosInmueble.js"></script>
+    <script src="js/gastos.js"></script>
+    <script src="js/financiacion.js"></script>
+    <script src="js/cra.js"></script>
+    <script src="js/crv.js"></script>
+    <script src="js/cashflow.js"></script>
+    <script src="js/fiscalidad.js"></script>
+    <script src="js/resumen.js"></script>
+  </body>
+</html>
