@@ -11,6 +11,14 @@
 
     <!-- html2pdf.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      integrity="sha512-papovdCMkSryweR2YfRCLLNBzrK0sw0nFFq1oCEYvZ91dT9zRYdx+RPVzZZdc+lDi8nZqSGkg/kJ3IgYzqR+XQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
   </head>
   <body>
     <header>
@@ -549,31 +557,49 @@
         <!-- ESCENARIOS SUGERIDOS -->
         <div class="grid-4" style="margin-bottom: 20px">
           <div style="text-align: center">
-            <label><strong>Escenario moderado</strong></label>
+            <label>
+              <i class="fas fa-arrow-up" style="color: #007bff"></i>
+              <strong> Escenario 1</strong>
+            </label>
             <input type="text" readonly class="readonly" id="ventaBajo" />
             <div
               id="rentabilidadBajo"
               style="color: green; font-weight: bold"
             ></div>
           </div>
+
           <div style="text-align: center">
-            <label><strong>Escenario bueno</strong></label>
+            <label>
+              <i class="fas fa-arrow-up" style="color: #007bff"></i>
+              <i class="fas fa-arrow-up" style="color: #007bff"></i>
+              <strong> Escenario 2</strong>
+            </label>
             <input type="text" readonly class="readonly" id="ventaMedio" />
             <div
               id="rentabilidadMedio"
               style="color: green; font-weight: bold"
             ></div>
           </div>
+
           <div style="text-align: center">
-            <label><strong>Escenario muy bueno</strong></label>
+            <label>
+              <i class="fas fa-arrow-up" style="color: #007bff"></i>
+              <i class="fas fa-arrow-up" style="color: #007bff"></i>
+              <i class="fas fa-arrow-up" style="color: #007bff"></i>
+              <strong> Escenario 3</strong>
+            </label>
             <input type="text" readonly class="readonly" id="ventaAlto" />
             <div
               id="rentabilidadAlto"
               style="color: green; font-weight: bold"
             ></div>
           </div>
+
           <div style="text-align: center">
-            <label><strong>Escenario TOP</strong></label>
+            <label>
+              <i class="fas fa-rocket" style="color: orange"></i>
+              <strong> Escenario TOP</strong>
+            </label>
             <input type="text" readonly class="readonly" id="ventaTop" />
             <div
               id="rentabilidadTop"
