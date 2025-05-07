@@ -82,6 +82,46 @@ label {
   margin-top: 15px;
   font-weight: bold;
 }
+.tooltip-wrapper {
+  position: relative;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 24px;
+  height: 24px;
+  background-color: white;
+  color: red; /* El interrogante en rojo */
+  border: 1px solid black;
+  border-radius: 50%;
+  font-weight: bold;
+  font-size: 15px;
+  margin-left: 8px;
+  cursor: pointer;
+  user-select: none;
+}
+.tooltip-text {
+  display: none;
+  position: absolute;
+  top: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  background-color: #333;
+  color: #fff;
+  padding: 10px 14px;
+  border-radius: 5px;
+  max-width: 360px;
+  min-width: 220px; /* ← Añade esto */
+  font-size: 14px;
+  line-height: 1.4;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  white-space: normal;
+  word-break: break-word;
+}
+
+.tooltip-wrapper.active .tooltip-text {
+  display: block;
+}
 
 input {
   width: 100%;
@@ -95,6 +135,44 @@ input {
 input.readonly {
   background-color: #eee;
   font-weight: bold;
+  pointer-events: none;
+}
+
+.cta-container {
+  margin-top: 30px;
+  padding: 20px;
+  background-color: #eef5fb;
+  border: 1px solid #b6d4f1;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.cta-text {
+  font-size: 16px;
+  margin-bottom: 15px;
+  font-weight: 500;
+  color: #003366;
+}
+
+.cta-buttons {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.cta-buttons button {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 18px;
+  font-size: 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.cta-buttons button:hover {
+  background-color: #0056b3;
 }
 
 button {
@@ -122,4 +200,104 @@ th,
 td {
   padding: 10px;
   border: 1px solid #ddd;
+}
+.footer {
+  background-color: #003366;
+  color: white;
+  text-align: center;
+  padding: 20px 15px;
+  font-size: 14px;
+  margin-top: 40px;
+  border-top: 4px solid #007bff;
+}
+
+.footer a {
+  margin-left: 8px;
+  display: inline-block;
+}
+
+.linkedin-icon {
+  width: 18px;
+  height: 18px;
+  vertical-align: middle;
+}
+
+@media (max-width: 768px) {
+  .grid-4,
+  .grid-cuatro-columnas {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px 55px;
+  }
+
+  .grid-2 {
+    grid-template-columns: 1fr;
+  }
+
+  nav {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  nav button {
+    flex: 1 1 45%;
+    margin: 6px;
+  }
+
+  input,
+  select,
+  textarea {
+    font-size: 16px;
+    padding: 10px 12px;
+    box-sizing: border-box;
+    width: 100%;
+  }
+
+  .resumenInmueble {
+    font-size: 14px;
+  }
+
+  label {
+    font-size: 15px;
+  }
+  .tooltip-text {
+    display: none;
+    position: absolute;
+    top: 36px;
+    left: 0;
+    z-index: 10;
+    background-color: #333;
+    color: #fff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    padding: 12px 16px;
+    border-radius: 8px;
+    max-width: 300px;
+    font-size: 15px;
+    line-height: 1.5;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+    text-align: left;
+  }
+
+  button {
+    width: 100%;
+    font-size: 16px;
+    box-sizing: border-box;
+    padding: 12px;
+  }
+
+  main {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .grid-4 > div,
+  .grid-2 > div {
+    padding-right: 4px;
+  }
+}
+@media (max-width: 768px) {
+  .footer {
+    font-size: 13px;
+    padding: 18px 10px;
+  }
 }

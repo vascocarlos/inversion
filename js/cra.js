@@ -1,79 +1,105 @@
+// Función robusta para obtener números
+function getNum(id) {
+  const el = document.getElementById(id);
+  if (!el || el.value.trim() === "") return 0;
+  return parseFloat(el.value.replace(",", ".")) || 0;
+}
+
+// Solo calcular gastos anuales del módulo CRA
+function calcularGastosCRA() {
+  const ibi = getNum("ibiCRA");
+  const comunidad = getNum("comunidadCRA");
+  const seguros = getNum("segurosCRA"); // anual
+  const alarma = getNum("alarmaCRA");
+
+  const comunidadAnual = comunidad * 12;
+  const segurosAnual = seguros; // YA NO SE MULTIPLICA POR 12
+  const alarmaAnual = alarma * 12;
+
+  document.getElementById("ibiAnualCRA").value = ibi.toLocaleString("es-ES");
+  document.getElementById("comunidadAnualCRA").value =
+    comunidadAnual.toLocaleString("es-ES");
+  document.getElementById("segurosAnualCRA").value =
+    segurosAnual.toLocaleString("es-ES");
+  document.getElementById("alarmaAnualCRA").value =
+    alarmaAnual.toLocaleString("es-ES");
+
+  const gastosTotales = ibi + comunidadAnual + segurosAnual + alarmaAnual;
+  document.getElementById("gastosCRA").value =
+    gastosTotales.toLocaleString("es-ES") + " €";
+}
+
+// Cálculo completo del módulo CRA
 function calcularCRA() {
-  const alquilerMensual = parseFloat(
-    document.getElementById("alquilerMensual").value
-  );
-
-  if (!alquilerMensual || alquilerMensual <= 0) {
-    alert(
-      "⚠️ Introduce un alquiler mensual válido antes de calcular la rentabilidad CRA."
-    );
-    return;
-  }
-
+  // Ingresos
+  const alquilerMensual = getNum("alquilerMensual");
   const ingresosAnuales = alquilerMensual * 12;
-
-  // ✅ Gastos anuales bien sumados
-  const ibi = parseFloat(document.getElementById("ibi")?.value) || 0;
-  const comunidad =
-    parseFloat(document.getElementById("comunidadGasto")?.value) || 0;
-  const seguros = parseFloat(document.getElementById("seguros")?.value) || 0;
-  const alarma = parseFloat(document.getElementById("alarma")?.value) || 0;
-  const gastosAnuales = ibi + comunidad + seguros + alarma;
-
-  // Datos de inversión
-  const precio =
-    parseFloat(document.getElementById("precioInmueble").value) || 0;
-  const descuento = parseFloat(document.getElementById("descuento").value) || 0;
-  const itp = parseFloat(document.getElementById("itp").value) || 0;
-
-  // Gastos de compra
-  const notaria = parseFloat(document.getElementById("notaria")?.value) || 0;
-  const registro = parseFloat(document.getElementById("registro")?.value) || 0;
-  const gestoria = parseFloat(document.getElementById("gestoria")?.value) || 0;
-  const comision =
-    parseFloat(document.getElementById("comisionCompra")?.value) || 0;
-  const otros =
-    parseFloat(document.getElementById("otrosGastosCompra")?.value) || 0;
-
-  const itpEuros = precio * (1 - descuento / 100) * (itp / 100);
-  const totalGastosCompra =
-    itpEuros + notaria + registro + gestoria + comision + otros;
-
-  // Reforma
-  const reforma =
-    parseFloat(document.getElementById("costeReforma")?.value) || 0;
-  const extras = parseFloat(document.getElementById("extras")?.value) || 0;
-
-  // Cálculo inversión total
-  const importeDescuento = precio * (descuento / 100);
-  const inversionTotal =
-    precio - importeDescuento + totalGastosCompra + reforma + extras;
-
-  const rentabilidadBruta = (ingresosAnuales / precio) * 100;
-  const rentabilidadNeta =
-    ((ingresosAnuales - gastosAnuales) / inversionTotal) * 100;
-  const roi = ((ingresosAnuales - gastosAnuales) / inversionTotal) * 100;
-
-  // Mostrar resultados
-  document.getElementById("inversionTotal").value =
-    inversionTotal.toLocaleString("es-ES", {
-      style: "currency",
-      currency: "EUR",
-    });
-
   document.getElementById("ingresosAnuales").value =
     ingresosAnuales.toLocaleString("es-ES", {
       style: "currency",
       currency: "EUR",
     });
 
-  document.getElementById("gastosAnuales").value = gastosAnuales.toLocaleString(
+  // Gastos anuales
+  const ibi = getNum("ibiCRA");
+  const comunidad = getNum("comunidadCRA");
+  const seguros = getNum("segurosCRA"); // anual
+  const alarma = getNum("alarmaCRA");
+
+  const comunidadAnual = comunidad * 12;
+  const segurosAnual = seguros; // YA NO SE MULTIPLICA POR 12
+  const alarmaAnual = alarma * 12;
+
+  document.getElementById("ibiAnualCRA").value = ibi.toLocaleString("es-ES");
+  document.getElementById("comunidadAnualCRA").value =
+    comunidadAnual.toLocaleString("es-ES");
+  document.getElementById("segurosAnualCRA").value =
+    segurosAnual.toLocaleString("es-ES");
+  document.getElementById("alarmaAnualCRA").value =
+    alarmaAnual.toLocaleString("es-ES");
+
+  const gastosAnuales = ibi + comunidadAnual + segurosAnual + alarmaAnual;
+  document.getElementById("gastosCRA").value = gastosAnuales.toLocaleString(
     "es-ES",
     {
       style: "currency",
       currency: "EUR",
     }
   );
+
+  // Inversión
+  const precio = getNum("precioInmueble");
+  const descuento = getNum("descuento");
+  const itp = getNum("itp");
+  const notaria = getNum("notaria");
+  const registro = getNum("registro");
+  const gestoria = getNum("gestoria");
+  const comision = getNum("comisionCompra");
+  const otros = getNum("otrosGastosCompra");
+
+  const itpEuros = precio * (1 - descuento / 100) * (itp / 100);
+  const totalGastosCompra =
+    itpEuros + notaria + registro + gestoria + comision + otros;
+
+  const reforma = getNum("costeReforma");
+  const extras = getNum("extras");
+  const importeDescuento = precio * (descuento / 100);
+
+  const inversionTotal =
+    precio - importeDescuento + totalGastosCompra + reforma + extras;
+  document.getElementById("inversionTotal").value =
+    inversionTotal.toLocaleString("es-ES", {
+      style: "currency",
+      currency: "EUR",
+    });
+
+  // Rentabilidad
+  const rentabilidadBruta = precio > 0 ? (ingresosAnuales / precio) * 100 : 0;
+  const rentabilidadNeta =
+    inversionTotal > 0
+      ? ((ingresosAnuales - gastosAnuales) / inversionTotal) * 100
+      : 0;
+  const roi = rentabilidadNeta;
 
   document.getElementById("rentabilidadBruta").value =
     rentabilidadBruta.toFixed(2) + " %";

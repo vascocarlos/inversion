@@ -17,17 +17,10 @@
       <h1>Simulador de Inversión Inmobiliaria</h1>
     </header>
 
-    <!-- Botones generales -->
-    <div style="text-align: center; margin-top: 10px">
-      <button onclick="guardarDatos()">💾 Guardar datos</button>
-      <button onclick="cargarDatos()">📂 Cargar datos</button>
-      <button onclick="borrarDatos()">🗑️ Borrar datos</button>
-    </div>
-
     <!-- Navegación -->
     <nav style="text-align: center; margin-top: 15px">
       <button onclick="mostrar('datosInmueble')">Datos del Inmueble</button>
-      <button onclick="mostrar('gastos')">Gastos</button>
+      <!-- <button onclick="mostrar('gastos')">Gastos</button> -->
       <button onclick="mostrar('financiacion')">Financiación</button>
       <button onclick="mostrar('cra')">CRA</button>
       <button onclick="mostrar('crv')">CRV</button>
@@ -45,15 +38,7 @@
         <input type="text" id="direccion" placeholder="Ej: Calle Mallorca 12" />
 
         <!-- Grupo compacto con separación -->
-        <div
-          style="
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 20px 25px;
-            margin-top: 15px;
-            margin-bottom: 20px;
-          "
-        >
+        <div class="grid-4">
           <div>
             <label for="superficieTotal">Superficie total (m²):</label>
             <input type="number" id="superficieTotal" placeholder="Ej: 88" />
@@ -145,7 +130,17 @@
 
         <!-- Línea con ITP y Comunidad Autónoma -->
         <div style="margin-bottom: 15px">
-          <label style="font-weight: bold">ITP (%) Comunidad Autónoma:</label>
+          <label style="font-weight: bold">
+            ITP (%) Comunidad Autónoma:
+            <span class="tooltip-wrapper" onclick="toggleTooltip(this)">
+              ❓
+              <span class="tooltip-text">
+                El ITP (Impuesto de Transmisiones Patrimoniales) es un impuesto
+                que se paga al comprar un inmueble de segunda mano. Varía según
+                la Comunidad Autónoma.
+              </span>
+            </span>
+          </label>
 
           <div style="margin-top: 5px">
             <select
@@ -226,7 +221,17 @@
           </div>
         </div>
 
-        <label>Precio total con gastos (€):</label>
+        <label>
+          Precio total con gastos (€):
+          <span class="tooltip-wrapper" onclick="toggleTooltip(this)">
+            ❓
+            <span class="tooltip-text">
+              Incluye: precio con descuento + ITP + notaría + registro +
+              gestoría + otros gastos.
+            </span>
+          </span>
+        </label>
+
         <input type="text" id="precioTotal" readonly class="readonly" />
 
         <h3>Reforma</h3>
@@ -269,10 +274,85 @@
           class="readonly"
         />
 
-        <div style="text-align: center; margin-top: 30px">
-          <button onclick="exportarResumenPDF()">📄 Descargar PDF</button>
-          <button onclick="compartirResultado()">🔗 Compartir</button>
+        <div
+          class="cta-container"
+          style="
+            text-align: center;
+            margin-top: 30px;
+            padding: 20px;
+            border: 1px solid #cce5ff;
+            background-color: #eaf4ff;
+            border-radius: 8px;
+          "
+        >
+          <p
+            class="cta-text"
+            style="margin-bottom: 15px; color: #004085; font-weight: 500"
+          >
+            Ya tienes el coste total de tu inversión. ¿Y ahora qué quieres
+            hacer?
+          </p>
+
+          <div
+            class="cta-buttons"
+            style="
+              display: flex;
+              flex-wrap: wrap;
+              gap: 12px;
+              justify-content: center;
+            "
+          >
+            <button
+              onclick="mostrar('cra')"
+              style="background-color: #007bff; color: white"
+            >
+              🏠 Alquilar (CRA)
+            </button>
+            <button
+              onclick="mostrar('crv')"
+              style="background-color: #007bff; color: white"
+            >
+              💼 Vender (CRV)
+            </button>
+            <button
+              onclick="exportarResumenPDF()"
+              style="background-color: #28a745; color: white"
+            >
+              📄 Descargar PDF
+            </button>
+            <button
+              onclick="compartirResultado()"
+              style="background-color: #28a745; color: white"
+            >
+              🔗 Compartir
+            </button>
+          </div>
         </div>
+        <!-- Botones generales -->
+        <div style="text-align: center; margin-top: 10px">
+          <button onclick="guardarDatos()">💾 Guardar datos</button>
+          <button onclick="cargarDatos()">📂 Cargar datos</button>
+          <button onclick="borrarDatos()">🗑️ Borrar datos</button>
+        </div>
+
+        <!-- FOOTER -->
+        <footer class="footer">
+          <p>
+            &copy; 2025 Simulador de Inversión Inmobiliaria · Hecho por Carlos
+            Vasco Fernández
+            <a
+              href="https://www.linkedin.com/in/carlos-vasco-fernández-19a880246/"
+              target="_blank"
+              aria-label="LinkedIn de Carlos"
+            >
+              <img
+                src="img/LinkedIn_icon.svg.png"
+                alt="LinkedIn"
+                class="linkedin-icon"
+              />
+            </a>
+          </p>
+        </footer>
       </section>
 
       <!-- MÓDULO 2: GASTOS -->
@@ -374,8 +454,57 @@
         <label>Ingresos anuales (€):</label>
         <input type="text" id="ingresosAnuales" readonly class="readonly" />
 
+        <!-- Gastos anuales individuales dentro de CRA -->
+        <div class="grid-4">
+          <div>
+            <label>IBI:</label>
+            <input
+              type="number"
+              id="ibiCRA"
+              placeholder="Anual (€)"
+              oninput="calcularGastosCRA();calcularCRA();"
+            />
+            <input type="text" id="ibiAnualCRA" readonly class="readonly" />
+          </div>
+          <div>
+            <label>Comunidad:</label>
+            <input
+              type="number"
+              id="comunidadCRA"
+              placeholder="Mensual (€)"
+              oninput="calcularGastosCRA();calcularCRA();"
+            />
+            <input
+              type="text"
+              id="comunidadAnualCRA"
+              readonly
+              class="readonly"
+            />
+          </div>
+          <div>
+            <label>Seguros:</label>
+            <input
+              type="number"
+              id="segurosCRA"
+              placeholder="Anual (€)"
+              oninput="calcularGastosCRA();calcularCRA();"
+            />
+            <input type="text" id="segurosAnualCRA" readonly class="readonly" />
+          </div>
+          <div>
+            <label>Varios:</label>
+            <input
+              type="number"
+              id="alarmaCRA"
+              placeholder="Mensual (€)"
+              oninput="calcularGastosCRA();calcularCRA();"
+            />
+            <input type="text" id="alarmaAnualCRA" readonly class="readonly" />
+          </div>
+        </div>
+
         <label>Gastos anuales (€):</label>
-        <input type="text" id="gastosAnuales" readonly class="readonly" />
+        <input type="text" id="gastosCRA" readonly class="readonly" />
 
         <label>Rentabilidad bruta (%):</label>
         <input type="text" id="rentabilidadBruta" readonly class="readonly" />
