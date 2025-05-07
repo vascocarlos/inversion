@@ -5,11 +5,54 @@ body {
   padding: 0;
 }
 
-header {
+.header {
+  position: relative;
   background-color: #003366;
   color: white;
-  padding: 20px;
   text-align: center;
+  padding: 40px 20px;
+  overflow: hidden;
+}
+
+.header-icon-bg {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 90px;
+  height: 90px;
+  transform: translate(-50%, -50%);
+  opacity: 0.22; /* ← Subimos la opacidad en móvil */
+  z-index: 0;
+}
+
+.header-icon-bg img {
+  width: 100%;
+  height: auto;
+}
+
+.header h1 {
+  position: relative;
+  z-index: 1;
+  font-size: 1.8rem;
+  line-height: 1.4;
+  max-width: 90%;
+  margin: 0 auto;
+}
+
+@media (min-width: 768px) {
+  .header {
+    padding: 50px 20px;
+  }
+
+  .header-icon-bg {
+    width: 120px;
+    height: 120px;
+    opacity: 0.3; /* ← Versión escritorio, más visible */
+  }
+
+  .header h1 {
+    font-size: 2.2rem;
+  }
 }
 
 nav {
@@ -205,21 +248,24 @@ td {
   background-color: #003366;
   color: white;
   text-align: center;
-  padding: 20px 15px;
+  padding: 20px;
   font-size: 14px;
-  margin-top: 40px;
-  border-top: 4px solid #007bff;
+}
+
+.footer p {
+  margin: 6px 0;
 }
 
 .footer a {
-  margin-left: 8px;
-  display: inline-block;
+  color: white;
+  text-decoration: none;
 }
 
-.linkedin-icon {
-  width: 18px;
-  height: 18px;
+.footer .linkedin-icon {
+  width: 16px;
+  height: 16px;
   vertical-align: middle;
+  margin-left: 5px;
 }
 
 @media (max-width: 768px) {
@@ -298,6 +344,11 @@ td {
 @media (max-width: 768px) {
   .footer {
     font-size: 13px;
-    padding: 18px 10px;
+    padding: 16px 10px;
+  }
+
+  .footer .linkedin-icon {
+    width: 14px;
+    height: 14px;
   }
 }
