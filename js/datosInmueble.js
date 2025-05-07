@@ -3,13 +3,23 @@ function setITPporZona() {
   const itpInput = document.getElementById("itp");
 
   const itpPorComunidad = {
-    baleares: 8,
-    catalunya: 10,
-    madrid: 6,
     andalucia: 7,
-    valencia: 10,
     aragon: 8,
+    asturias: 8,
+    baleares: 8,
+    canarias: 6.5,
+    cantabria: 10,
+    castillalamancha: 9,
+    castillayleon: 8,
+    catalunya: 10,
+    ceuta: 6,
+    extremadura: 8,
     galicia: 10,
+    madrid: 6,
+    murcia: 8,
+    navarra: 6,
+    paisvasco: 4,
+    valencia: 10,
   };
 
   if (comunidad && itpPorComunidad[comunidad] !== undefined) {
