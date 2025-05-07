@@ -40,14 +40,15 @@ body {
 }
 .version-badge {
   position: absolute;
-  bottom: 8px;
-  right: 12px;
-  background-color: rgba(255, 255, 255, 0.15);
-  color: white;
-  font-size: 12px;
-  padding: 4px 8px;
+  bottom: 10px;
+  right: 15px;
+  background-color: #1b3b5f;
+  color: #fff;
+  padding: 4px 10px;
+  font-size: 0.75rem;
   border-radius: 12px;
   z-index: 2;
+  opacity: 0.8;
 }
 
 @media (min-width: 768px) {

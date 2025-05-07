@@ -8,9 +8,10 @@ function mostrar(id) {
   const modulo = document.getElementById(id);
   modulo.style.display = "block";
 
-  // Desplaza suavemente hacia ese módulo
-  modulo.scrollIntoView({ behavior: "smooth" });
+  // Sube directamente al inicio de la página (mejor para móviles)
+  window.scrollTo({ top: 0, behavior: "instant" });
 
+  // Solo para CRV: actualiza los datos mostrados
   if (id === "crv") rellenarResumenInmueble();
 }
 
