@@ -32,8 +32,8 @@
       <button onclick="mostrar('financiacion')">Financiación</button>
       <button onclick="mostrar('cra')">CRA</button>
       <button onclick="mostrar('crv')">CRV</button>
-      <button onclick="mostrar('cashflow')">Cashflow</button>
-      <button onclick="mostrar('fiscalidad')">Fiscalidad</button>
+      <!--  <button onclick="mostrar('cashflow')">Cashflow</button>
+      <button onclick="mostrar('fiscalidad')">Fiscalidad</button>-->
       <button onclick="mostrar('resumen')">Resumen</button>
     </nav>
 
@@ -522,6 +522,37 @@
 
         <label>ROI (%):</label>
         <input type="text" id="roi" readonly class="readonly" />
+
+        <!-- CASHFLOW INTEGRADO -->
+        <hr />
+        <h3>Cashflow: Evolución a Largo Plazo</h3>
+
+        <label>Incremento anual del alquiler (%):</label>
+        <input type="number" id="incrementoAlquiler" value="2" />
+
+        <label>Incremento anual de gastos (%):</label>
+        <input type="number" id="incrementoGastos" value="1.5" />
+
+        <div style="text-align: center; margin: 20px 0">
+          <button onclick="generarCashflow()" class="btn-verde">
+            Generar Cashflow
+          </button>
+        </div>
+
+        <div id="tablaCashflow" class="tabla-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th>Año</th>
+                <th>Alquiler anual (€)</th>
+                <th>Gastos anuales (€)</th>
+                <th>Cashflow (€)</th>
+                <th>Acumulado (€)</th>
+              </tr>
+            </thead>
+            <tbody id="cuerpoCashflow"></tbody>
+          </table>
+        </div>
       </section>
 
       <!-- MÓDULO 5: CRV -->
@@ -708,6 +739,8 @@
             grid-template-columns: 1fr 1fr;
             gap: 12px 30px;
             margin-bottom: 20px;
+            width: 100%;
+            margin: 0;
           "
         >
           <p><strong>Dirección:</strong> <span id="r_direccion"></span></p>

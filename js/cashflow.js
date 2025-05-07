@@ -3,28 +3,31 @@ let grafico = null;
 function generarCashflow() {
   const alquilerBase =
     parseFloat(document.getElementById("alquilerMensual").value) || 0;
+
   const gastoBase =
-    parseFloat(document.getElementById("ibi").value) ||
-    0 + parseFloat(document.getElementById("comunidad").value) ||
-    0 + parseFloat(document.getElementById("seguros").value) ||
-    0;
+    (parseFloat(document.getElementById("ibiCRA").value) || 0) +
+    (parseFloat(document.getElementById("comunidadCRA").value) || 0) * 12 +
+    (parseFloat(document.getElementById("segurosCRA").value) || 0) +
+    (parseFloat(document.getElementById("alarmaCRA").value) || 0) * 12;
+
   const incrementoAlquiler =
-    parseFloat(document.getElementById("incrementoAlquiler").value) / 100;
+    (parseFloat(document.getElementById("incrementoAlquiler").value) || 0) /
+    100;
   const incrementoGastos =
-    parseFloat(document.getElementById("incrementoGastos").value) / 100;
+    (parseFloat(document.getElementById("incrementoGastos").value) || 0) / 100;
 
   const años = [];
   const acumulados = [];
   let tabla =
-    "<table border='1' style='width:100%; margin-top:20px; text-align:center;'>";
+    "<div style='overflow-x:auto;'><table border='1' style='width:100%; margin-top:20px; text-align:center;'>";
   tabla +=
-    "<tr><th>Año</th><th>Alquiler anual (€)</th><th>Gastos anuales (€)</th><th>Cashflow (€)</th><th>Acumulado (€)</th></tr>";
+    "<tr><th>Año</th><th>Alquiler anual (€)</th><th>Cashflow (€)</th><th>Acumulado (€)</th></tr>";
 
   let alquiler = alquilerBase * 12;
   let gastos = gastoBase;
   let acumulado = 0;
 
-  for (let año = 1; año <= 40; año++) {
+  for (let año = 1; año <= 25; año++) {
     let neto = alquiler - gastos;
     acumulado += neto;
 
@@ -34,7 +37,6 @@ function generarCashflow() {
     tabla += `<tr>
       <td>${año}</td>
       <td>${alquiler.toFixed(2)}</td>
-      <td>${gastos.toFixed(2)}</td>
       <td>${neto.toFixed(2)}</td>
       <td>${acumulado.toFixed(2)}</td>
     </tr>`;
@@ -43,7 +45,7 @@ function generarCashflow() {
     gastos *= 1 + incrementoGastos;
   }
 
-  tabla += "</table>";
+  tabla += "</table></div>";
   document.getElementById("tablaCashflow").innerHTML = tabla;
 
   // Crear gráfico
