@@ -25,6 +25,8 @@
       <img src="img/graph.svg" alt="Icono gráfico" />
     </div>
     <h1>Simulador de Inversión Inmobiliaria</h1>
+    <div class="version-badge">v1.0.1 Beta</div>
+
   </header>
   
 
@@ -555,6 +557,22 @@
             <tbody id="cuerpoCashflow"></tbody>
           </table>
         </div>
+<hr />
+<div style="text-align: center; margin-top: 30px; padding: 20px; background-color: #f0f8ff; border-radius: 8px">
+  <p style="font-weight: 500; margin-bottom: 15px;">
+    ¿Quieres ver la rentabilidad si vendes o necesitas ajustar algún dato?
+  </p>
+  <div style="display: flex; flex-direction: column; gap: 10px; align-items: center;">
+    <button onclick="mostrar('crv')" style="background-color: #007bff; color: white; padding: 10px 20px; border-radius: 5px; width: 280px;">
+      💼 Ver rentabilidad por venta (CRV)
+    </button>
+    <button onclick="mostrar('datosInmueble')" style="background-color: #28a745; color: white; padding: 10px 20px; border-radius: 5px; width: 280px;">
+      ✏️ Editar datos del inmueble
+    </button>
+  </div>
+</div>
+
+
       </section>
 
       <!-- MÓDULO 5: CRV -->
@@ -676,6 +694,22 @@
 
         <label>ROI final (%):</label>
         <input type="text" id="roiCrv" readonly class="readonly" />
+        <hr />
+        <div style="text-align: center; margin-top: 30px; padding: 20px; background-color: #f0f8ff; border-radius: 8px">
+          <p style="font-weight: 500; margin-bottom: 15px;">
+            ¿Prefieres ver la rentabilidad si alquilas o necesitas ajustar algún dato?
+          </p>
+          <div style="display: flex; flex-direction: column; gap: 10px; align-items: center;">
+            <button onclick="mostrar('cra')" style="background-color: #007bff; color: white; padding: 10px 20px; border-radius: 5px; width: 280px;">
+              🏠 Ver rentabilidad por alquiler (CRA)
+            </button>
+            <button onclick="mostrar('datosInmueble')" style="background-color: #28a745; color: white; padding: 10px 20px; border-radius: 5px; width: 280px;">
+              ✏️ Editar datos del inmueble
+            </button>
+          </div>
+        </div>
+        
+
 
         <!-- BOTONES DE ACCIÓN -->
         <div style="text-align: center; margin-top: 30px">
