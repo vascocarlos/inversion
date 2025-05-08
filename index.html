@@ -50,70 +50,76 @@
         <label>Dirección:</label>
         <input type="text" id="direccion" placeholder="Ej: Calle Mallorca 12" />
 
-        <!-- Grupo compacto con separación -->
-        <div class="grid-4">
-          <div>
-            <label for="superficieTotal">Superficie m²:</label>
-            <input type="number" id="superficieTotal" placeholder="Ej: 88" />
-          </div>
+        <details style="margin-top: 20px;">
+          <summary><span class="toggle-icon"></span> Añadir más detalles del inmueble</summary>
 
-          <div>
-            <label for="planta">Planta:</label>
-            <input type="number" id="planta" placeholder="Ej: 2" />
+        
+          <!-- Grupo compacto con separación -->
+          <div class="grid-4" style="margin-top: 15px;">
+            <div>
+              <label for="superficieTotal">Superficie m²:</label>
+              <input type="number" id="superficieTotal" placeholder="Ej: 88" />
+            </div>
+        
+            <div>
+              <label for="planta">Planta:</label>
+              <input type="number" id="planta" placeholder="Ej: 2" />
+            </div>
+        
+            <div>
+              <label for="habitaciones">Nº habitaciones:</label>
+              <input type="number" id="habitaciones" placeholder="Ej: 3" />
+            </div>
+        
+            <div>
+              <label for="ascensor">Ascensor (sí/no):</label>
+              <input type="text" id="ascensor" placeholder="Ej: Sí" />
+            </div>
+        
+            <div>
+              <label for="banos">Nº baños:</label>
+              <input type="number" id="banos" placeholder="Ej: 1" />
+            </div>
+        
+            <div>
+              <label for="aseos">Nº aseos:</label>
+              <input type="number" id="aseos" placeholder="Ej: 1" />
+            </div>
+        
+            <div>
+              <label for="superficieUtil">Superficie útil (m²):</label>
+              <input type="number" id="superficieUtil" placeholder="Ej: 75" />
+            </div>
+        
+            <div>
+              <label for="terraza">Terraza/Balcón (m²):</label>
+              <input type="number" id="terraza" placeholder="Ej: 5" />
+            </div>
+        
+            <div>
+              <label for="patio">Patio/Jardín (m²):</label>
+              <input type="number" id="patio" placeholder="Ej: 10" />
+            </div>
+        
+            <div>
+              <label for="parking">Parking (m²):</label>
+              <input type="number" id="parking" placeholder="Ej: 12" />
+            </div>
+        
+            <div>
+              <label for="trastero">Trastero (m²):</label>
+              <input type="number" id="trastero" placeholder="Ej: 6" />
+            </div>
           </div>
-
-          <div>
-            <label for="habitaciones">Nº habitaciones:</label>
-            <input type="number" id="habitaciones" placeholder="Ej: 3" />
-          </div>
-
-          <div>
-            <label for="ascensor">Ascensor (sí/no):</label>
-            <input type="text" id="ascensor" placeholder="Ej: Sí" />
-          </div>
-
-          <div>
-            <label for="banos">Nº baños:</label>
-            <input type="number" id="banos" placeholder="Ej: 1" />
-          </div>
-
-          <div>
-            <label for="aseos">Nº aseos:</label>
-            <input type="number" id="aseos" placeholder="Ej: 1" />
-          </div>
-
-          <div>
-            <label for="superficieUtil">Superficie útil (m²):</label>
-            <input type="number" id="superficieUtil" placeholder="Ej: 75" />
-          </div>
-
-          <div>
-            <label for="terraza">Terraza/Balcón (m²):</label>
-            <input type="number" id="terraza" placeholder="Ej: 5" />
-          </div>
-
-          <div>
-            <label for="patio">Patio/Jardín (m²):</label>
-            <input type="number" id="patio" placeholder="Ej: 10" />
-          </div>
-
-          <div>
-            <label for="parking">Parking (m²):</label>
-            <input type="number" id="parking" placeholder="Ej: 12" />
-          </div>
-
-          <div>
-            <label for="trastero">Trastero (m²):</label>
-            <input type="number" id="trastero" placeholder="Ej: 6" />
-          </div>
-        </div>
-
-        <label>Otros datos:</label>
-        <textarea
-          id="otrosDatos"
-          placeholder="Ej: Orientación sur, zona tranquila..."
-          style="width: 100%; height: 60px"
-        ></textarea>
+        
+          <label style="margin-top: 10px; display: block;">Otros datos:</label>
+          <textarea
+            id="otrosDatos"
+            placeholder="Ej: Orientación sur, zona tranquila..."
+            style="width: 100%; height: 60px"
+          ></textarea>
+        </details>
+        
 
         <!-- BLOQUE CORREGIDO: Precio del inmueble y Descuento aplicado -->
         <!-- Contenedor en grid de 2 columnas -->
